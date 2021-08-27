@@ -1,11 +1,10 @@
-import {io} from "socket.io-client";
-
-const socket = io('http://localhost:9999');
+// import socket from "./socket";
+import JoinBlock from "./components/JoinBlock";
 
 function App() {
   return (
-    <div className="App">
-      Hello
+    <div className="container mx-auto min-h-screen flex items-center justify-center">
+      <JoinBlock />
     </div>
   );
 }
