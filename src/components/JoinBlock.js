@@ -1,32 +1,34 @@
 import React from 'react';
-import socket from "../socket";
+import axios from "axios";
 
 const JoinBlock = () => {
+    const [roomId, setRoomId] = React.useState('');
+    const [userName, setUserName] = React.useState('');
+
+    const onEnter = () => {
+        if (!roomId || !userName) alert('Не верные данные!');
+        console.log(roomId, userName);
+        axios.post('rooms', {roomId, userName});
+    }
+
     return (
         <div className="card bordered shadow-2xl lg:card-side bg-info text-primary-content max-w-sm w-full">
-            <form className="card-body w-full">
+            <div className="card-body w-full space-y-2" action="/rooms">
                 <div className="card-title">
                     <h3>Connecting to room</h3>
                 </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Rooms ID</span>
-                    </label>
-                    <input type="text" placeholder="rooms id" className="input input-bordered"/>
-                </div>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Username</span>
-                    </label>
-                    <input type="text" placeholder="username" className="input input-bordered"/>
-                </div>
+                <input type="text" placeholder="Rooms ID" className="input input-bordered" value={roomId}
+                       onChange={e => setRoomId(e.target.value)}/>
+                <input type="text" placeholder="Username" className="input input-bordered" value={userName}
+                       onChange={e => setUserName(e.target.value)}/>
                 <div className="card-actions w-full">
-                    <button className="btn btn-primary w-full">Connect</button>
+                    <button className="btn btn-primary w-full" onClick={onEnter}>Connect</button>
                 </div>
-            </form>
+            </div>
         </div>
 
     );
 };
 
 export default JoinBlock;
+

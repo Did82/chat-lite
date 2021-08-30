@@ -1,4 +1,5 @@
-const app = require("express")();
+const express = require('express');
+const app = express();
 const server = require("http").createServer(app);
 const options = {
     cors: {
@@ -8,10 +9,23 @@ const options = {
 };
 const io = require("socket.io")(server, options);
 
+app.use(express.json());
+
 const rooms = new Map();
 
 app.get('/rooms', (req, res) => {
     res.json(rooms);
+});
+
+app.post('/rooms', (req, res) => {
+    const {roomId, userName} = req.body;
+    if (!rooms.has(roomId)) {
+        rooms.set(roomId, new Map([
+            ['users', new Map()],
+            ['messages', []],
+        ]))
+    }
+    res.send();
 });
 
 io.on('connection', socket => {
