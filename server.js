@@ -30,7 +30,7 @@ app.post('/rooms', (req, res) => {
 
 io.on('connection', socket => {
     console.log('user connected', socket.id);
-})
+});
 
 server.listen(9999, (err) => {
     if (err) throw Error(err);
