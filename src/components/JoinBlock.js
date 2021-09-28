@@ -4,12 +4,15 @@ import axios from "axios";
 const JoinBlock = ({onLogin}) => {
     const [roomId, setRoomId] = React.useState('');
     const [userName, setUserName] = React.useState('');
+    const [isLoading, setLoading] = React.useState(false);
 
     const onEnter = () => {
         if (!roomId || !userName) alert('Не верные данные!');
         console.log(roomId, userName);
-        axios.post('/rooms', {roomId, userName})
-            .then(onLogin)
+        const obj = {roomId, userName};
+        setLoading(true);
+        axios.post('/rooms', obj)
+            .then(onLogin(obj))
             .catch(err => console.error(err));
     }
 
@@ -24,7 +27,9 @@ const JoinBlock = ({onLogin}) => {
                 <input type="text" placeholder="Username" className="input" value={userName}
                        onChange={e => setUserName(e.target.value)}/>
                 <div className="card-actions w-full">
-                    <button className="btn btn-primary w-full" onClick={onEnter}>Connect</button>
+                    <button disabled={isLoading} className="btn btn-primary w-full" onClick={onEnter}>
+                        {isLoading ? 'Connection...' : 'Connect'}
+                    </button>
                 </div>
             </div>
         </div>
